@@ -27,7 +27,7 @@ Seurat2Phantasus_gct(seuratobject = MySeuratObject,
            cluster_to_subset = "seurat_clusters",
            output_gct_file = "MyPseudobulk.gct")
 ```
-.gct file could be uploaded to Phantasus tool (https://artyomovlab.wustl.edu/phantasus/) for future analysisю
+.gct file could be uploaded to Phantasus tool (https://artyomovlab.wustl.edu/phantasus/) for future analysis.
 
 Expression set generation (for advanced analysis).
 
