@@ -8,11 +8,13 @@ Another helpful feature of this package is the ability to generate an expression
 #### Install dependencies:
 ```r
 install.packages('Seurat')
+install.packages("devtools")
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
 BiocManager::install(c('a4Base','Biobase','phantasus'))
 ```
 #### Install Seurat2Phantasus
 ```r
-install.packages("devtools")
 devtools::install_github("ParkLaboratory/Seurat2Phantasus")
 ```
 ## Usage
