@@ -31,7 +31,7 @@ Seurat2Phantasus_expressionset <-
 
         cluster_to_subset.es <- sample_to_subset.es[ , sample_to_subset.es[[cluster_to_subset]] == cluster]
 
-        print(paste0("Sample: ",sample," cluster: ",cluster," contains: ",ncol(Biobase::exprs(cluster_to_subset.es))," cells"))
+        print(paste0("Sample: ",sample," cluster: ",cluster," contains: ",ncol(Biobase::exprs(cluster_to_subset.es))," cells. Summarising AssayData."))
 
         cluster_to_subset.es.rowsum <- Biobase::ExpressionSet(assayData = as.matrix(rowSums(Biobase::exprs(cluster_to_subset.es))))
 
