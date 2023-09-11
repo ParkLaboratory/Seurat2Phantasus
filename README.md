@@ -23,6 +23,7 @@ Basic usage (users need to input two cells annotation (for example: sample and c
 
 ```r
 library("Seurat2Phantasus")
+
 Seurat2Phantasus_gct(seuratobject = MySeuratObject,
            slot = "counts",
            assay = "RNA",
@@ -35,7 +36,6 @@ The resulting .gct file could be uploaded to Phantasus tool (https://artyomovlab
 Expression set generation (for advanced analysis).
 
 ```r
-library("Seurat2Phantasus")
 es <- Seurat2Phantasus_expressionset(seuratobject = MySeuratObject,
             slot = "counts",
             assay = "RNA",
