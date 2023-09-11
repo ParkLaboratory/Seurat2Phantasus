@@ -34,13 +34,13 @@ Seurat2Phantasus_gct <-
 
         cluster_to_subset.es <- sample_to_subset.es[ , sample_to_subset.es[[cluster_to_subset]] == cluster]
 
-        print(paste0("Sample: ",sample," cluster: ",cluster," contains: ",ncol(exprs(cluster_to_subset.es))," cells"))
+        print(paste0("Sample: ",sample," cluster: ",cluster," contains: ",ncol(Biobase::exprs(cluster_to_subset.es))," cells"))
 
-        cluster_to_subset.es.rowsum <- Biobase::ExpressionSet(assayData = as.matrix(rowSums(exprs(cluster_to_subset.es))))
+        cluster_to_subset.es.rowsum <- Biobase::ExpressionSet(assayData = as.matrix(rowSums(Biobase::exprs(cluster_to_subset.es))))
 
         colnames(cluster_to_subset.es.rowsum) <- paste0(cluster,'.',sample)
-        pData(cluster_to_subset.es.rowsum)$sample_to_subset = sample
-        pData(cluster_to_subset.es.rowsum)$cluster_to_subset = cluster
+        Biobase::pData(cluster_to_subset.es.rowsum)$sample_to_subset = sample
+        Biobase::pData(cluster_to_subset.es.rowsum)$cluster_to_subset = cluster
 
         cluster_to_subset.all.es <- a4Base::combineTwoExpressionSet(cluster_to_subset.es.rowsum,cluster_to_subset.all.es)
         rm(cluster_to_subset.es.rowsum)
