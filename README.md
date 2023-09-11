@@ -22,6 +22,7 @@ devtools::install_github("ParkLaboratory/Seurat2Phantasus")
 Basic usage (users need to input two cells annotation (for example: sample and cluster), indicate slot and assay, and output file location):
 
 ```r
+library("Seurat2Phantasus")
 Seurat2Phantasus_gct(seuratobject = MySeuratObject,
            slot = "counts",
            assay = "RNA",
@@ -34,6 +35,7 @@ The resulting .gct file could be uploaded to Phantasus tool (https://artyomovlab
 Expression set generation (for advanced analysis).
 
 ```r
+library("Seurat2Phantasus")
 es <- Seurat2Phantasus_expressionset(seuratobject = MySeuratObject,
             slot = "counts",
             assay = "RNA",
