@@ -7,10 +7,11 @@ Another helpful feature of this package is the ability to generate an expression
 ### Install from GitHub
 #### Install dependencies:
 ```r
-install.packages('Seurat')
-install.packages('devtools')
+install.packages('Seurat', 'devtools')
+
 if (!require('BiocManager', quietly = TRUE))
     install.packages('BiocManager')
+
 BiocManager::install(c('a4Base','Biobase','phantasus'))
 ```
 #### Install Seurat2Phantasus
