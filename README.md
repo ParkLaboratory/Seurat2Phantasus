@@ -23,8 +23,7 @@ devtools::install_github('ParkLaboratory/Seurat2Phantasus')
 Basic usage (users need to input two cells annotation (for example: sample and cluster), indicate slot and assay, and output file location):
 
 ```r
-library('Seurat2Phantasus')
-library('Seurat')
+library('Seurat','Seurat2Phantasus')
 
 Seurat2Phantasus_gct(seuratobject = pbmc_small,
                      slot = "counts",
