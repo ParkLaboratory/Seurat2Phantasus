@@ -8,28 +8,29 @@ Another helpful feature of this package is the ability to generate an expression
 #### Install dependencies:
 ```r
 install.packages('Seurat')
-install.packages("devtools")
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
+install.packages('devtools')
+if (!require('BiocManager', quietly = TRUE))
+    install.packages('BiocManager')
 BiocManager::install(c('a4Base','Biobase','phantasus'))
 ```
 #### Install Seurat2Phantasus
 ```r
-devtools::install_github("ParkLaboratory/Seurat2Phantasus")
+devtools::install_github('ParkLaboratory/Seurat2Phantasus')
 ```
 ## Usage
 
 Basic usage (users need to input two cells annotation (for example: sample and cluster), indicate slot and assay, and output file location):
 
 ```r
-library("Seurat2Phantasus")
+library('Seurat2Phantasus')
+library('Seurat')
 
-Seurat2Phantasus_gct(seuratobject = MySeuratObject,
-           slot = "counts",
-           assay = "RNA",
-           sample_to_subset = "sample",
-           cluster_to_subset = "seurat_clusters",
-           output_gct_file = "MyPseudobulk.gct")
+Seurat2Phantasus_gct(seuratobject = pbmc_small,
+                     slot = "counts",
+                     assay = "RNA",
+                     sample_to_subset = "letter.idents",
+                     cluster_to_subset = "RNA_snn_res.1",
+                     output_gct_file = "pbmc_small_Pseudobulk.gct")
 ```
 The resulting .gct file could be uploaded to Phantasus tool (https://artyomovlab.wustl.edu/phantasus/) for future analysis.
 
