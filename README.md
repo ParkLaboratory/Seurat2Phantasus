@@ -28,7 +28,7 @@ library('Seurat','Seurat2Phantasus')
 Seurat2Phantasus_gct(seuratobject = pbmc_small,
                      slot = "counts",
                      assay = "RNA",
-                     sample_to_subset = "letter.idents",
+                     sample_to_subset = "groups",
                      cluster_to_subset = "RNA_snn_res.1",
                      output_gct_file = "pbmc_small_Pseudobulk.gct")
 ```
