@@ -1,4 +1,4 @@
-# About Seurat2Phantasus
+# About Seurat2Phantasus:
 The tool performs a pseudobulk conversion of the single cell data of a Seurat object into an expression set object or gct file suitable for the Phantasus tool (https://artyomovlab.wustl.edu/phantasus/).
 All this allows to perform GUI-based pseudobulk analysis of single-cell RNA sequencing data using all the advantages of the Phantasus tool, including PCA analysis, Differential expression (DESeq, Limma), 
 Pathways analysis (fgsea), and others (for the complete list of functions and manual, see Phantasus help: https://ctlab.github.io/phantasus-doc/quick-start.html). 
@@ -14,11 +14,11 @@ if (!require('BiocManager', quietly = TRUE))
 
 BiocManager::install(c('a4Base','Biobase','phantasus'))
 ```
-#### Install Seurat2Phantasus
+#### Install Seurat2Phantasus:
 ```r
 devtools::install_github('ParkLaboratory/Seurat2Phantasus')
 ```
-## Usage
+## Usage:
 
 Basic usage (users need to input two cells annotation (for example: sample and cluster), indicate slot and assay, and output file location):
 
