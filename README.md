@@ -1,5 +1,3 @@
-<meta name="google-site-verification" content="BDXS0Ygzx1Tn2C7QcJGYV3Lv6KK8bWid_Djn1u8ouho" />
-
 # About Seurat2Phantasus
 The tool performs a pseudobulk conversion of the single cell data of a Seurat object into an expression set object or gct file suitable for the Phantasus tool (https://artyomovlab.wustl.edu/phantasus/).
 All this allows to perform GUI-based pseudobulk analysis of single-cell RNA sequencing data using all the advantages of the Phantasus tool, including PCA analysis, Differential expression (DESeq, Limma), 
