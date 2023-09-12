@@ -4,6 +4,7 @@ All this allows to perform GUI-based pseudobulk analysis of single-cell RNA sequ
 Pathways analysis (fgsea), and others (for the complete list of functions and manual, see Phantasus help: https://ctlab.github.io/phantasus-doc/quick-start.html). 
 Another helpful feature of this package is the ability to generate an expression set object compatible with many bulk RNA seq analysis tools, the example below will show how to remove the batch effect using Combat-Seq.
 
+![alt text](https://github.com/ParkLaboratory/Seurat2Phantasus/blob/e9f0f4fb9ed6ee9d52db4a5894de75625c8e6e04/sample.jpg?raw=true)
 ### Install from GitHub
 #### Install dependencies:
 ```r
