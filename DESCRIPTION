@@ -1,10 +1,14 @@
 Package: Seurat2Phantasus
-Title: Generate Phantasus compatable gct file for pseudobulk analysis
-Version: 0.0.0.1
+Title: Generate Pseudobulk Expression Profiles for Phantasus
+Version: 0.0.0.2
 Authors@R: person(given = "Artem", family = "Kiselev", email = "akiselev@msu.edu", role = c("aut", "cre"))
-Description: Generate Phantasus-compatable gct file for pseudobulk analysis
+Description: Aggregate single-cell expression values by biological sample and
+    cell cluster. Return a Bioconductor ExpressionSet or export a GCT file
+    for downstream analysis in Phantasus.
 License: `use_mit_license()`
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3.9000
-Imports: Seurat, phantasus, Biobase, a4Base
+Imports: SeuratObject (>= 4.1.4), Matrix, phantasus, Biobase, methods, utils
+URL: https://github.com/ParkLaboratory/Seurat2Phantasus
+BugReports: https://github.com/ParkLaboratory/Seurat2Phantasus/issues
