@@ -22,6 +22,7 @@ object <- make_object()
 es <- aggregate_es(object)
 stopifnot(identical(Biobase::exprs(es), expected),
           identical(Biobase::fData(es)$gene_id, rownames(counts)),
+          identical(Biobase::pData(es)$id, colnames(expected)),
           identical(as.integer(Biobase::pData(es)$n_cells), c(2L, 2L, 1L, 1L)),
           identical(Biobase::pData(es)$sample_to_subset, c("s1", "s2", "s2", "s1")),
           identical(Biobase::exprs(aggregate_es(object, slot = "counts")), expected))
