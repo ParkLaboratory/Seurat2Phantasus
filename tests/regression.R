@@ -63,7 +63,7 @@ result <- Seurat2Phantasus_gct(object, sample_to_subset = "sample",
                              cluster_to_subset = "cluster", output_gct_file = output)
 stopifnot(identical(result, output), file.exists(output),
           identical(readLines(output, n = 1L), "#1.3"))
-roundtrip <- phantasus::read.gct(output)
+roundtrip <- phantasusLite::readGct(output)
 stopifnot(isTRUE(all.equal(Biobase::exprs(roundtrip), expected,
                            check.attributes = TRUE)),
           identical(as.character(Biobase::pData(roundtrip)$sample_to_subset),
@@ -75,9 +75,17 @@ if (utils::packageVersion("SeuratObject") >= "5.0.0") {
     counts = list(a = counts[, 1:3], b = counts[, 4:6]))
   split_object <- SeuratObject::CreateSeuratObject(counts = split_assay,
                                                 meta.data = metadata)
-  expect_error(aggregate_es(split_object), "Split layers detected")
+  expect_error(aggregate_es(split_object), "No exact layer")
   joined <- SeuratObject::JoinLayers(split_object, assay = "RNA")
   stopifnot(identical(Biobase::exprs(aggregate_es(joined)), expected))
+  # Exact layer names win over similarly named layers, including periods.
+  exact_object <- SeuratObject::CreateSeuratObject(
+    counts = SeuratObject::CreateAssay5Object(counts = counts),
+    meta.data = metadata)
+  SeuratObject::LayerData(exact_object, assay = "RNA", layer = "counts.raw") <- counts * 2
+  stopifnot(identical(Biobase::exprs(aggregate_es(exact_object)), expected),
+            identical(Biobase::exprs(aggregate_es(exact_object, layer = "counts.raw")),
+                      expected * 2))
   subset_object <- object
   subset_object[["subset"]] <- SeuratObject::CreateAssay5Object(
     counts = counts[, c(1, 3, 5), drop = FALSE])
@@ -86,6 +94,18 @@ if (utils::packageVersion("SeuratObject") >= "5.0.0") {
             identical(as.integer(Biobase::pData(subset_es)$n_cells), c(1L, 2L)),
             identical(unname(Biobase::exprs(subset_es)),
                       unname(cbind(c(1, 0, 2), c(5, 6, 2)))))
+}
+# Reject GCT delimiters in both sample/cluster annotations and gene IDs.
+for (delimiter in c("\t", "\n", "\r")) {
+  bad <- object
+  bad$sample <- c(paste0("s", delimiter, "1"), metadata$sample[-1])
+  expect_error(aggregate_es(bad), "tabs or line breaks")
+  bad <- object
+  bad$cluster <- c(paste0("T", delimiter, "cell"), metadata$cluster[-1])
+  expect_error(aggregate_es(bad), "tabs or line breaks")
+  bad_counts <- counts
+  rownames(bad_counts)[1] <- paste0("g", delimiter, "1")
+  expect_error(aggregate_es(make_object(bad_counts)), "tabs or line breaks")
 }
 # Run the actual README example in an isolated temporary directory.
 if (file.exists("README.md")) {

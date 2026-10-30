@@ -33,5 +33,6 @@ sparsity until the final pseudobulk matrix is constructed.
 \details{
 Use raw RNA counts for count-based downstream methods. Other layers
 are summed as supplied without normalization or back-transformation.
-Split v5 layers must first be joined explicitly with JoinLayers.
+Select layers by their exact names. To combine split v5 layers, join the
+intended layers explicitly with JoinLayers before aggregation.
 }

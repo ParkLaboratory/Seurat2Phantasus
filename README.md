@@ -6,10 +6,13 @@ can be returned as a Bioconductor `ExpressionSet` or exported as a GCT 1.3 file
 for analysis in [Phantasus](https://artyomovlab.wustl.edu/phantasus/).
 
 Maintained by [Park Laboratory](https://github.com/ParkLaboratory).
+Package author and maintainer: **Sangbum Park** ([spark@msu.edu](mailto:spark@msu.edu)).
 For questions and maintenance requests, please use this repository's
 [Issues](https://github.com/ParkLaboratory/Seurat2Phantasus/issues).
 The package source and documentation were restored from the historical `v0.1`
 tag; the original commit history has been preserved.
+The current package version is **0.1.0**; `v0.1` above identifies the historical
+restoration source, not the current release.
 
 ## Workflow overview
 
@@ -25,13 +28,16 @@ of biological replication or statistical significance.
 
 ```r
 install.packages(c("SeuratObject", "remotes", "BiocManager"))
-BiocManager::install(c("Biobase", "phantasus"), ask = FALSE, update = FALSE)
+BiocManager::install(c("Biobase", "phantasusLite"), ask = FALSE, update = FALSE)
 remotes::install_github("ParkLaboratory/Seurat2Phantasus")
 ```
 
 Use a mutually compatible R/Bioconductor release. The package accepts
-SeuratObject v4 and v5 objects; v5 layers must be joined before aggregation
-if they are split. See [Seurat's layer documentation](https://satijalab.org/seurat/articles/seurat5_essential_commands.html).
+SeuratObject v4 and v5 objects. For v5, select an exact layer name; to aggregate
+across split layers, join the intended layers first. See
+[Seurat's layer documentation](https://satijalab.org/seurat/articles/seurat5_essential_commands.html).
+GCT input/output uses `phantasusLite`; the full Phantasus web application is
+not required for installation.
 Automated checks are defined in `.github/workflows/r-tests.yaml`. A workflow
 definition alone does not establish that a particular package version passed;
 check the associated run in the repository's Actions tab.
@@ -89,9 +95,14 @@ for available downstream analyses.
 - Use raw `RNA` counts for count-based downstream methods. Other layers are
   summed as supplied; normalized, log-transformed, integrated, or SCT values
   are not automatically converted back into raw counts.
-- For split v5 assays, explicitly join the intended layers first, for example
-  `obj <- SeuratObject::JoinLayers(obj, assay = "RNA")`. The function reports
-  an error rather than silently selecting one split layer.
+- Layer names are matched exactly. A layer named `counts.raw` is valid and
+  does not prevent selecting an existing `counts` layer. If only split layers
+  such as `counts.sample1` and `counts.sample2` exist, join the intended layers
+  first (for example, `obj <- SeuratObject::JoinLayers(obj, assay = "RNA")`)
+  to aggregate across them. Select a particular split layer explicitly only
+  when its subset of cells is intended.
+- Gene IDs and sample/cluster annotations must not contain tabs or line breaks,
+  which are delimiters in the GCT format.
 - In-memory dense and sparse matrices are supported. Disk-backed matrices
   are not currently supported.
 - Rows are genes; columns are observed sample/cluster pairs. Unobserved
@@ -142,7 +153,7 @@ adjusted_es <- Biobase::ExpressionSet(
   phenoData = methods::new("AnnotatedDataFrame", Biobase::pData(es_type)),
   featureData = Biobase::featureData(es_type)
 )
-phantasus::write.gct(adjusted_es, "pseudobulk_adjusted.gct", gzip = FALSE)
+phantasusLite::writeGct(adjusted_es, "pseudobulk_adjusted.gct", gzip = FALSE)
 ```
 
 This template is not intended for the tiny synthetic example above. Check
@@ -160,7 +171,10 @@ source("tests/regression.R")
 
 Checks compare aggregation with hand-calculated results, exercise sparse
 and single-cell groups, validate input errors, and test GCT write/read round
-trips. SeuratObject v5 checks cover split layers and assay cell subsets.
+trips. SeuratObject v5 checks cover split layers, exact layer names, and assay
+cell subsets. CI additionally runs `R CMD check` through
+`r-lib/actions/check-r-package`. Errors fail CI; warnings remain visible in the
+check report while the historical license declaration awaits institutional review.
 These checks do not validate a real biological analysis or every supported
 R/Seurat combination. Review workflow results before using an updated version
 for research.
@@ -168,5 +182,5 @@ for research.
 ## License status
 
 The historical package contains an unfinished license declaration. This update
-does not grant a new license or change authorship. The rights holder should
+does not grant a new license or determine copyright ownership. The rights holder should
 confirm the intended license before redistribution under a stated license.
