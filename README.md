@@ -14,7 +14,7 @@ tag; the original commit history has been preserved.
 ## Installation
 
 ```r
-install.packages(c("Seurat", "remotes", "BiocManager"))
+install.packages(c("SeuratObject", "remotes", "BiocManager"))
 BiocManager::install(c("Biobase", "phantasus"), ask = FALSE, update = FALSE)
 remotes::install_github("ParkLaboratory/Seurat2Phantasus")
 ```
@@ -32,7 +32,7 @@ This synthetic example demonstrates file conversion only, not a biological
 experiment or a valid differential-expression study.
 
 ```r
-library(Seurat)
+library(SeuratObject)
 library(Seurat2Phantasus)
 
 counts <- matrix(
