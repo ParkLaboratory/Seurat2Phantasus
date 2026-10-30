@@ -24,6 +24,7 @@ Seurat2Phantasus_expressionset(
 \value{
 A Biobase ExpressionSet with genes in rows and observed groups in
 columns. Annotations contain sample_to_subset, cluster_to_subset, n_cells.
+Feature annotations retain the gene identifiers in gene_id.
 }
 \description{
 Sum expression within each observed sample/cluster pair while retaining
