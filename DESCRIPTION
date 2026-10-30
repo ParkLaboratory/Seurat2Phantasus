@@ -1,7 +1,9 @@
 Package: Seurat2Phantasus
 Title: Generate Pseudobulk Expression Profiles for Phantasus
 Version: 0.1.0
-Authors@R: person(given = "Sangbum", family = "Park", email = "spark@msu.edu", role = c("aut", "cre"))
+Authors@R: c(
+    person("Sangbum", "Park", email = "spark@msu.edu", role = c("aut", "cre")),
+    person("Artem", "Kiselev", role = "aut"))
 Description: Aggregate single-cell expression values by biological sample and
     cell cluster. Return a Bioconductor ExpressionSet or export a GCT file
     for downstream analysis in Phantasus.

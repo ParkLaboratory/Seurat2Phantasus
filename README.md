@@ -6,7 +6,7 @@ can be returned as a Bioconductor `ExpressionSet` or exported as a GCT 1.3 file
 for analysis in [Phantasus](https://artyomovlab.wustl.edu/phantasus/).
 
 Maintained by [Park Laboratory](https://github.com/ParkLaboratory).
-Package author and maintainer: **Sangbum Park** ([spark@msu.edu](mailto:spark@msu.edu)).
+Maintainer: **Sangbum Park** ([spark@msu.edu](mailto:spark@msu.edu)); original author: **Artem Kiselev**.
 For questions and maintenance requests, please use this repository's
 [Issues](https://github.com/ParkLaboratory/Seurat2Phantasus/issues).
 The package source and documentation were restored from the historical `v0.1`
