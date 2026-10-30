@@ -2,29 +2,35 @@
 % Please edit documentation in R/Seurat2Phantasus_expressionset.R
 \name{Seurat2Phantasus_expressionset}
 \alias{Seurat2Phantasus_expressionset}
-\title{A Seurat2Phantasus_expressionset Function
-This function allows you to make pseudobulk expression set file}
+\title{Aggregate expression by biological sample and cell cluster}
 \usage{
 Seurat2Phantasus_expressionset(
   seuratobject,
   slot = "counts",
   assay = "RNA",
   sample_to_subset,
-  cluster_to_subset
+  cluster_to_subset,
+  layer = slot
 )
 }
 \arguments{
-\item{seuratobject}{Your seuratobject}
-
-\item{slot}{Slot: counts - raw, data - log2 Default is counts slot}
-
-\item{assay}{Assay: RNA, SCT, etc Default is RNA slot}
-
-\item{sample_to_subset}{sample metadata annotation}
-
-\item{cluster_to_subset}{cluster metadata annotation}
+\item{seuratobject}{A Seurat object.}
+\item{slot}{Legacy alias for layer, retained for existing callers.}
+\item{assay}{Assay name. Defaults to RNA.}
+\item{sample_to_subset}{Biological-sample metadata column name.}
+\item{cluster_to_subset}{Cell-cluster metadata column name.}
+\item{layer}{Expression layer. Defaults to slot (counts by default).}
+}
+\value{
+A Biobase ExpressionSet with genes in rows and observed groups in
+columns. Annotations contain sample_to_subset, cluster_to_subset, n_cells.
 }
 \description{
-A Seurat2Phantasus_expressionset Function
-This function allows you to make pseudobulk expression set file
+Sum expression within each observed sample/cluster pair while retaining
+sparsity until the final pseudobulk matrix is constructed.
+}
+\details{
+Use raw RNA counts for count-based downstream methods. Other layers
+are summed as supplied without normalization or back-transformation.
+Split v5 layers must first be joined explicitly with JoinLayers.
 }

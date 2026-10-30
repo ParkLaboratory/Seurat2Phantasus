@@ -2,8 +2,7 @@
 % Please edit documentation in R/Seurat2Phantasus_gct.R
 \name{Seurat2Phantasus_gct}
 \alias{Seurat2Phantasus_gct}
-\title{A Seurat2Phantasus_gct Function
-This function allows you to make pseudobulk gct file for Phantasus}
+\title{Export sample/cluster pseudobulk profiles to a GCT file}
 \usage{
 Seurat2Phantasus_gct(
   seuratobject,
@@ -11,23 +10,22 @@ Seurat2Phantasus_gct(
   assay = "RNA",
   sample_to_subset,
   cluster_to_subset,
-  output_gct_file
+  output_gct_file,
+  layer = slot
 )
 }
 \arguments{
-\item{seuratobject}{Your seuratobject}
-
-\item{slot}{Slot: counts - raw, data - log2 Default is counts slot}
-
-\item{assay}{Assay: RNA, SCT, etc Default is RNA slot}
-
-\item{sample_to_subset}{sample metadata annotation}
-
-\item{cluster_to_subset}{cluster metadata annotation}
-
-\item{output_gct_file}{output gct file}
+\item{seuratobject}{A Seurat object.}
+\item{slot}{Legacy alias for layer, retained for existing callers.}
+\item{assay}{Assay name. Defaults to RNA.}
+\item{sample_to_subset}{Biological-sample metadata column name.}
+\item{cluster_to_subset}{Cell-cluster metadata column name.}
+\item{output_gct_file}{Output path. Its directory must exist.}
+\item{layer}{Expression layer. Defaults to slot (counts by default).}
+}
+\value{
+Invisibly returns the output path after writing GCT version 1.3.
 }
 \description{
-A Seurat2Phantasus_gct Function
-This function allows you to make pseudobulk gct file for Phantasus
+Export sample/cluster pseudobulk profiles to a GCT file.
 }
