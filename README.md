@@ -90,7 +90,8 @@ for available downstream analyses.
   Names use `cluster.sample`, made unique if necessary. Always use
   `Biobase::pData(es)` to identify groups rather than parsing column names.
 - Output annotations are `sample_to_subset`, `cluster_to_subset`, and
-  `n_cells`. The legacy `slot = "counts"` argument remains supported;
+  `n_cells`; feature annotations include `gene_id` for GCT export.
+  The legacy `slot = "counts"` argument remains supported;
   use `layer` for new code.
 - Cell-level sparse matrices remain sparse during aggregation. The final
   pseudobulk matrix is dense, so memory still scales with genes times groups.
@@ -128,7 +129,8 @@ adjusted <- sva::ComBat_seq(
 )
 adjusted_es <- Biobase::ExpressionSet(
   assayData = adjusted,
-  phenoData = methods::new("AnnotatedDataFrame", Biobase::pData(es_type))
+  phenoData = methods::new("AnnotatedDataFrame", Biobase::pData(es_type)),
+  featureData = Biobase::featureData(es_type)
 )
 phantasus::write.gct(adjusted_es, "pseudobulk_adjusted.gct", gzip = FALSE)
 ```
