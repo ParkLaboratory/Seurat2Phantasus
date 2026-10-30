@@ -89,7 +89,11 @@ Seurat2Phantasus_expressionset <- function(seuratobject, slot = "counts",
          call. = FALSE)
   }
   stored_values <- if (inherits(expression, "sparseMatrix")) {
-    summary(expression)$x
+    if ("x" %in% methods::slotNames(expression)) {
+      methods::slot(expression, "x")
+    } else {
+      numeric() # Pattern sparse matrices have implicit unit entries.
+    }
   } else {
     expression
   }
