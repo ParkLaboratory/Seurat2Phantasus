@@ -9,7 +9,7 @@
 #' @param cluster_to_subset Cell-cluster metadata column name.
 #' @param layer Expression layer. Defaults to slot (counts by default).
 #' @return A Biobase ExpressionSet with genes in rows and observed groups in
-#'   columns. Annotations contain sample_to_subset, cluster_to_subset, n_cells.
+#'   columns. Annotations contain id, sample_to_subset, cluster_to_subset, n_cells.
 #'   Feature annotations retain the gene identifiers in gene_id.
 #' @details Use raw RNA counts for count-based downstream methods. Other layers
 #'   are summed as supplied without normalization or back-transformation.
@@ -111,7 +111,7 @@ Seurat2Phantasus_expressionset <- function(seuratobject, slot = "counts",
   summed <- as.matrix(expression %*% membership)
   group_names <- make.unique(paste(clusters[first], samples[first], sep = "."))
   dimnames(summed) <- list(genes, group_names)
-  annotations <- data.frame(sample_to_subset = samples[first],
+  annotations <- data.frame(id = group_names, sample_to_subset = samples[first],
                             cluster_to_subset = clusters[first],
                             n_cells = tabulate(groups, nbins = length(first)),
                             row.names = group_names, stringsAsFactors = FALSE)
