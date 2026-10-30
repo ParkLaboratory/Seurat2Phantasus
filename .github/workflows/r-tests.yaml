@@ -17,9 +17,15 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: deps::.
+          extra-packages: any::rcmdcheck
           dependencies: '"hard"'
           cache: always
       - name: Install package
         run: R CMD INSTALL .
       - name: Run regression checks
         run: Rscript tests/regression.R
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          args: 'c("--no-manual")'
+          error-on: '"error"'
+          upload-results: always
