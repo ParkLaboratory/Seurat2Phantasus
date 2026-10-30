@@ -10,6 +10,7 @@
 #' @param layer Expression layer. Defaults to slot (counts by default).
 #' @return A Biobase ExpressionSet with genes in rows and observed groups in
 #'   columns. Annotations contain sample_to_subset, cluster_to_subset, n_cells.
+#'   Feature annotations retain the gene identifiers in gene_id.
 #' @details Use raw RNA counts for count-based downstream methods. Other layers
 #'   are summed as supplied without normalization or back-transformation.
 #'   Split v5 layers must first be joined explicitly with JoinLayers.
@@ -115,5 +116,8 @@ Seurat2Phantasus_expressionset <- function(seuratobject, slot = "counts",
                             n_cells = tabulate(groups, nbins = length(first)),
                             row.names = group_names, stringsAsFactors = FALSE)
   Biobase::ExpressionSet(assayData = summed,
-                        phenoData = methods::new("AnnotatedDataFrame", annotations))
+                        phenoData = methods::new("AnnotatedDataFrame", annotations),
+                        featureData = methods::new("AnnotatedDataFrame",
+                          data.frame(gene_id = genes, row.names = genes,
+                                     stringsAsFactors = FALSE)))
 }
