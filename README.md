@@ -89,7 +89,7 @@ for available downstream analyses.
 - Columns follow the first appearance of each pair in the selected layer.
   Names use `cluster.sample`, made unique if necessary. Always use
   `Biobase::pData(es)` to identify groups rather than parsing column names.
-- Output annotations are `sample_to_subset`, `cluster_to_subset`, and
+- Output annotations are a unique `id`, `sample_to_subset`, `cluster_to_subset`, and
   `n_cells`; feature annotations include `gene_id` for GCT export.
   The legacy `slot = "counts"` argument remains supported;
   use `layer` for new code.
