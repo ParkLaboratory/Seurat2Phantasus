@@ -13,7 +13,8 @@
 #'   Feature annotations retain the gene identifiers in gene_id.
 #' @details Use raw RNA counts for count-based downstream methods. Other layers
 #'   are summed as supplied without normalization or back-transformation.
-#'   Split v5 layers must first be joined explicitly with JoinLayers.
+#'   Select layers by their exact names. To combine split v5 layers, join the
+#'   intended layers explicitly with JoinLayers before aggregation.
 #' @export
 Seurat2Phantasus_expressionset <- function(seuratobject, slot = "counts",
                                          assay = "RNA", sample_to_subset,
@@ -47,12 +48,14 @@ Seurat2Phantasus_expressionset <- function(seuratobject, slot = "counts",
   if (utils::packageVersion("SeuratObject") >= "5.0.0") {
     assay_object <- seuratobject[[assay]]
     layers <- SeuratObject::Layers(assay_object, search = NA)
-    if (any(startsWith(layers, paste0(layer, ".")))) {
-      stop("Split layers detected for '", layer,
-           "'. Join the intended layers with SeuratObject::JoinLayers() first.",
-           call. = FALSE)
-    }
     if (!layer %in% layers) {
+      related <- layers[startsWith(layers, paste0(layer, "."))]
+      if (length(related)) {
+        stop("No exact layer named '", layer, "'. Available related layers: ",
+             paste(related, collapse = ", "),
+             ". Select an exact layer, or join the intended split layers with ",
+             "SeuratObject::JoinLayers() first.", call. = FALSE)
+      }
       stop("Layer not found: ", layer, call. = FALSE)
     }
     expression <- SeuratObject::LayerData(assay_object, layer = layer)
@@ -87,6 +90,10 @@ Seurat2Phantasus_expressionset <- function(seuratobject, slot = "counts",
   if (anyNA(samples) || anyNA(clusters) ||
       any(!nzchar(trimws(samples))) || any(!nzchar(trimws(clusters)))) {
     stop("Sample and cluster annotations must not contain missing or empty values.",
+         call. = FALSE)
+  }
+  if (any(grepl("[\t\r\n]", c(genes, samples, clusters)))) {
+    stop("Gene, sample and cluster identifiers must not contain tabs or line breaks.",
          call. = FALSE)
   }
   stored_values <- if (inherits(expression, "sparseMatrix")) {

@@ -20,6 +20,6 @@ Seurat2Phantasus_gct <- function(seuratobject, slot = "counts", assay = "RNA",
     seuratobject = seuratobject, assay = assay,
     sample_to_subset = sample_to_subset, cluster_to_subset = cluster_to_subset,
     layer = layer)
-  phantasus::write.gct(es, output_gct_file, gzip = FALSE)
+  phantasusLite::writeGct(es, output_gct_file, gzip = FALSE)
   invisible(output_gct_file)
 }
