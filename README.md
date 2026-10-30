@@ -11,6 +11,16 @@ For questions and maintenance requests, please use this repository's
 The package source and documentation were restored from the historical `v0.1`
 tag; the original commit history has been preserved.
 
+## Workflow overview
+
+![Illustrative workflow from single-cell clusters to pseudobulk profiles and downstream analysis in Phantasus](sample.jpg)
+
+The original illustration uses the small `pbmc_small` example: cells on the
+left are grouped by sample and cluster, their expression values are summed
+to form pseudobulk profiles, and the resulting GCT file can be explored in
+Phantasus (right). The figure illustrates the workflow; it is not a validation
+of biological replication or statistical significance.
+
 ## Installation
 
 ```r
