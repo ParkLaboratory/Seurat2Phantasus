@@ -1,52 +1,25 @@
-#' A Seurat2Phantasus_gct Function
-#' This function allows you to make pseudobulk gct file for Phantasus
-#' @param seuratobject Your seuratobject
-#' @param slot Slot: counts - raw, data - log2 Default is counts slot
-#' @param assay Assay: RNA, SCT, etc Default is RNA slot
-#' @param sample_to_subset sample metadata annotation
-#' @param cluster_to_subset cluster metadata annotation
-#' @param output_gct_file output gct file
-#' @keywords
-#' @examples
+#' Export sample/cluster pseudobulk profiles to a GCT file
+#' @inheritParams Seurat2Phantasus_expressionset
+#' @param output_gct_file Output path. Its directory must exist.
+#' @return Invisibly returns the output path after writing GCT version 1.3.
 #' @export
-
-Seurat2Phantasus_gct <-
-  function(seuratobject,
-           slot = "counts",
-           assay = "RNA",
-           sample_to_subset,
-           cluster_to_subset,
-           output_gct_file)
-
-  {
-
-    SeuratObject.es = Biobase::ExpressionSet(assayData = as.matrix(Seurat::GetAssayData(seuratobject, slot = slot, assay = assay)), phenoData =  new("AnnotatedDataFrame",seuratobject@meta.data))
-
-    sample_to_subset.all.es <- Biobase::ExpressionSet(assayData = as.matrix(Biobase::fData(SeuratObject.es)))
-
-    for (sample in unique(SeuratObject.es[[sample_to_subset]])) {
-
-      sample_to_subset.es <- SeuratObject.es[,SeuratObject.es[[sample_to_subset]] == sample]
-
-      cluster_to_subset.all.es <- Biobase::ExpressionSet(assayData = as.matrix(Biobase::fData(SeuratObject.es)))
-
-      for (cluster in unique(sample_to_subset.es[[cluster_to_subset]])) {
-
-        cluster_to_subset.es <- sample_to_subset.es[ , sample_to_subset.es[[cluster_to_subset]] == cluster]
-
-        print(paste0("Sample: ",sample," cluster: ",cluster," contains: ",ncol(Biobase::exprs(cluster_to_subset.es))," cells. Summarising AssayData."))
-
-        cluster_to_subset.es.rowsum <- Biobase::ExpressionSet(assayData = as.matrix(rowSums(Biobase::exprs(cluster_to_subset.es))))
-
-        colnames(cluster_to_subset.es.rowsum) <- paste0(cluster,'.',sample)
-        Biobase::pData(cluster_to_subset.es.rowsum)$sample_to_subset = sample
-        Biobase::pData(cluster_to_subset.es.rowsum)$cluster_to_subset = cluster
-
-        cluster_to_subset.all.es <- a4Base::combineTwoExpressionSet(cluster_to_subset.es.rowsum,cluster_to_subset.all.es)
-        rm(cluster_to_subset.es.rowsum)
-      }
-      sample_to_subset.all.es <- a4Base::combineTwoExpressionSet(cluster_to_subset.all.es,sample_to_subset.all.es)
-      rm(cluster_to_subset.all.es)
-    }
-    phantasus::write.gct(sample_to_subset.all.es, output_gct_file, gzip = FALSE)
+Seurat2Phantasus_gct <- function(seuratobject, slot = "counts", assay = "RNA",
+                                sample_to_subset, cluster_to_subset,
+                                output_gct_file, layer = slot) {
+  if (!is.character(output_gct_file) || length(output_gct_file) != 1L ||
+      is.na(output_gct_file) || !nzchar(trimws(output_gct_file))) {
+    stop("output_gct_file must be a single non-empty path.", call. = FALSE)
   }
+  if (!dir.exists(dirname(output_gct_file))) {
+    stop("Output directory does not exist: ", dirname(output_gct_file), call. = FALSE)
+  }
+  if (!missing(slot) && !missing(layer) && !identical(slot, layer)) {
+    stop("Specify layer or slot, or give both the same value.", call. = FALSE)
+  }
+  es <- Seurat2Phantasus_expressionset(
+    seuratobject = seuratobject, assay = assay,
+    sample_to_subset = sample_to_subset, cluster_to_subset = cluster_to_subset,
+    layer = layer)
+  phantasus::write.gct(es, output_gct_file, gzip = FALSE)
+  invisible(output_gct_file)
+}
