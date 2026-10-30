@@ -85,4 +85,21 @@ if (utils::packageVersion("SeuratObject") >= "5.0.0") {
             identical(unname(Biobase::exprs(subset_es)),
                       unname(cbind(c(1, 0, 2), c(5, 6, 2)))))
 }
+# Run the actual README example in an isolated temporary directory.
+if (file.exists("README.md")) {
+  readme <- readLines("README.md")
+  start <- which(readme == "```r")[2L]
+  end <- which(readme == "```" & seq_along(readme) > start)[1L]
+  stopifnot(!is.na(start), !is.na(end))
+  example_code <- readme[seq.int(start + 1L, end - 1L)]
+  local({
+    example_dir <- tempfile("seurat2phantasus-example-")
+    dir.create(example_dir)
+    original_dir <- setwd(example_dir)
+    on.exit({ setwd(original_dir); unlink(example_dir, recursive = TRUE) })
+    example_env <- new.env()
+    eval(parse(text = example_code), envir = example_env)
+    stopifnot(file.exists("pseudobulk.gct"), ncol(example_env$es) == 3L)
+  })
+}
 message("Pseudobulk regression checks passed.")
