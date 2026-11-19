@@ -174,13 +174,13 @@ and single-cell groups, validate input errors, and test GCT write/read round
 trips. SeuratObject v5 checks cover split layers, exact layer names, and assay
 cell subsets. CI additionally runs `R CMD check` through
 `r-lib/actions/check-r-package`. Errors fail CI; warnings remain visible in the
-check report while the historical license declaration awaits institutional review.
+check report.
 These checks do not validate a real biological analysis or every supported
 R/Seurat combination. Review workflow results before using an updated version
 for research.
 
 ## License status
 
-The historical package contains an unfinished license declaration. This update
-does not grant a new license or determine copyright ownership. The rights holder should
-confirm the intended license before redistribution under a stated license.
+This package is released under the MIT License. See [LICENSE.md](LICENSE.md)
+for the full text.
+Copyright (c) 2023-2026 Board of Trustees of Michigan State University.
